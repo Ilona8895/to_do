@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
 * {
   margin: 0;
   padding: 0;
@@ -5,20 +7,30 @@
 }
 
 body {
-  background: #f9fafc;
-  padding: 30px;
+  background-color: #f9fafc;
+}
+
+.container {
+  max-width: 1024px;
+  margin: auto;
+}
+
+h1 {
+  font-family: "Poppins", sans-serif;
+  text-align: center;
+  color: #215385;
+  padding: 20px;
 }
 
 .addTask {
   display: flex;
-  justify-content: space-between;
+  gap: 20px;
 }
 
 .task {
-  flex-basis: 75%;
+  flex-grow: 5;
   font-family: sans-serif;
   font-size: 1.5em;
-
   border: 1px solid #ddd;
   padding: 20px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
@@ -26,20 +38,27 @@ body {
 
 .task:focus {
   outline: 1px solid darkgray;
-  background-color: lightgreen;
+  background-color: rgb(192, 238, 192);
 }
+
 .btn {
-  display: inline-block;
-  padding: 10px 30px;
+  flex-grow: 1;
+  padding: 10px;
   background: #3689db;
   border: 0;
+  font-size: 1em;
   font-weight: bold;
   color: #fff;
-  flex-basis: 20%;
 }
 
 .btn:hover {
   cursor: pointer;
+  background: #699fd6;
+  border: 1px solid #3689db;
+}
+
+.list {
+  margin-top: 50px;
 }
 
 .element {
@@ -64,7 +83,7 @@ body {
 
 .focus {
   outline: 1px solid darkgray;
-  background-color: lightgreen;
+  background-color: rgb(192, 238, 192);
 }
 
 .delete {
@@ -77,6 +96,10 @@ body {
   height: 40px;
   background: none;
   border: 0;
+}
+
+.delete:hover {
+  color: #c9534a;
 }
 
 .delete:before {
@@ -105,6 +128,9 @@ body {
   border: 0;
 }
 
+.done:hover {
+  color: #3689db;
+}
 .done:before {
   content: "\f00c";
   position: absolute;
@@ -121,4 +147,18 @@ body {
 
 .checked {
   text-decoration: line-through;
+}
+
+@media screen and (max-width: 767px) {
+  .container {
+    overflow: hidden;
+    padding: 10px;
+  }
+  .addTask {
+    flex-direction: column;
+  }
+
+  .btn {
+    height: 5vh;
+  }
 }

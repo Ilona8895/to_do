@@ -4,7 +4,12 @@ const btn = document.querySelector(".btn");
 const list = document.querySelector(".list");
 
 function addListItem(e) {
-  if (e.key === "Enter" || e.pointerId === 1) {
+  console.log(e);
+  if (
+    e.key === "Enter" ||
+    e.pointerType === "mouse" ||
+    e.pointerType === "touch"
+  ) {
     const task = document.querySelector(".task");
 
     if (list.childNodes.length === 0) numOfTasks = 0;
@@ -49,6 +54,7 @@ window.addEventListener("load", (e) => {
 
 window.addEventListener("keydown", addListItem);
 btn.addEventListener("click", addListItem);
+// btn.addEventListener("touchstart", addListItem);
 
 list.addEventListener("click", (e) => {
   if (e.target.classList.contains("delete")) {
