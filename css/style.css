@@ -1,0 +1,124 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #f9fafc;
+  padding: 30px;
+}
+
+.addTask {
+  display: flex;
+  justify-content: space-between;
+}
+
+.task {
+  flex-basis: 75%;
+  font-family: sans-serif;
+  font-size: 1.5em;
+
+  border: 1px solid #ddd;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.task:focus {
+  outline: 1px solid darkgray;
+  background-color: lightgreen;
+}
+.btn {
+  display: inline-block;
+  padding: 10px 30px;
+  background: #3689db;
+  border: 0;
+  font-weight: bold;
+  color: #fff;
+  flex-basis: 20%;
+}
+
+.btn:hover {
+  cursor: pointer;
+}
+
+.element {
+  font-family: sans-serif;
+  border: 1px solid #ddd;
+  margin: 20px 0;
+  background: #fff;
+  position: relative;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.element-title {
+  font-size: 1.5em;
+  border: none;
+  width: 85%;
+  padding: 20px;
+}
+
+.element-title:focus {
+  outline: none;
+}
+
+.focus {
+  outline: 1px solid darkgray;
+  background-color: lightgreen;
+}
+
+.delete {
+  position: absolute;
+  right: 20px;
+  top: 15px;
+  text-indent: -9999px;
+  overflow: hidden;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: 0;
+}
+
+.delete:before {
+  content: "\f014";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 30px;
+  height: 30px;
+  transform: translate(-50%, -50%);
+  font-family: "FontAwesome";
+  text-indent: 0;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.done {
+  position: absolute;
+  right: 80px;
+  top: 15px;
+  text-indent: -9999px;
+  overflow: hidden;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: 0;
+}
+
+.done:before {
+  content: "\f00c";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 30px;
+  height: 30px;
+  transform: translate(-50%, -50%);
+  font-family: "FontAwesome";
+  text-indent: 0;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.checked {
+  text-decoration: line-through;
+}
