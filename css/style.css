@@ -88,6 +88,7 @@ h1 {
 
 .delete {
   position: absolute;
+  color: black;
   right: 20px;
   top: 15px;
   text-indent: -9999px;
@@ -118,6 +119,7 @@ h1 {
 
 .done {
   position: absolute;
+  color: black;
   right: 80px;
   top: 15px;
   text-indent: -9999px;

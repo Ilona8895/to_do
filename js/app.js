@@ -54,7 +54,7 @@ window.addEventListener("load", (e) => {
 
 window.addEventListener("keydown", addListItem);
 btn.addEventListener("click", addListItem);
-btn.addEventListener("touchstart", addListItem);
+btn.addEventListener("touchend", addListItem);
 
 list.addEventListener("click", (e) => {
   if (e.target.classList.contains("delete")) {
