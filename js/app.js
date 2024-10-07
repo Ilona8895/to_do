@@ -4,8 +4,11 @@ const btn = document.querySelector(".btn");
 const list = document.querySelector(".list");
 
 function addListItem(e) {
-  // console.log(e);
-  if (e.key === "Enter" || e.pointerType === "mouse") {
+  if (
+    e.key === "Enter" ||
+    e.pointerType === "mouse" ||
+    e.pointerType === "touch"
+  ) {
     const task = document.querySelector(".task");
 
     if (list.childNodes.length === 0) numOfTasks = 0;
@@ -31,33 +34,6 @@ function addListItem(e) {
   }
 }
 
-function addListItemMobile(e) {
-  // console.log(e);
-
-  const task = document.querySelector(".task");
-
-  if (list.childNodes.length === 0) numOfTasks = 0;
-  else {
-    numOfTasks = Number(list.lastChild.dataset.id);
-  }
-
-  if (task.value !== "") {
-    const addedTask = document.createElement("div");
-    addedTask.classList.add("element");
-    addedTask.dataset.id = numOfTasks + 1;
-    addedTask.innerHTML = `<p class="element-title">${task.value}</p>
-              <button class="delete">Delete</button>
-              <button class="done">Done</button>`;
-
-    list.appendChild(addedTask);
-
-    const obTask = { id: addedTask.dataset.id, value: task.value };
-    sendItemToBackend(obTask);
-  }
-
-  task.value = "";
-}
-
 window.addEventListener("load", (e) => {
   getItemsFromBackend().then(({ todoList }) => {
     // console.log(todoList);
@@ -77,7 +53,6 @@ window.addEventListener("load", (e) => {
 
 window.addEventListener("keydown", addListItem);
 btn.addEventListener("click", addListItem);
-btn.addEventListener("touchend", addListItemMobile);
 
 list.addEventListener("click", (e) => {
   if (e.target.classList.contains("delete")) {
