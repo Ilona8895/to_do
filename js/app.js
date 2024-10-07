@@ -4,11 +4,11 @@ const btn = document.querySelector(".btn");
 const list = document.querySelector(".list");
 
 function addListItem(e) {
-  console.log(e);
+  // console.log(e);
   if (
     e.key === "Enter" ||
     e.pointerType === "mouse" ||
-    e.pointerType === "touch"
+    e instanceof PointerEvent
   ) {
     const task = document.querySelector(".task");
 
