@@ -1,3 +1,3 @@
 # Demo Application
 
-[Github pages](https://github.com/Ilona8895/to_do)
+[Github pages](https://ilona8895.github.io/to_do/)
