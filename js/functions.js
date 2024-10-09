@@ -4,7 +4,7 @@
 // };
 
 function sendItemToBackend(item) {
-  fetch("http://127.0.0.1:8888/todo", {
+  fetch("https://to-do-nodejs-jih7.onrender.com/todo", {
     method: "POST",
     body: JSON.stringify(item),
     headers: {
@@ -14,17 +14,19 @@ function sendItemToBackend(item) {
 }
 
 function getItemsFromBackend() {
-  return fetch("http://127.0.0.1:8888/todo").then((res) => res.json());
+  return fetch("https://to-do-nodejs-jih7.onrender.com/todo").then((res) =>
+    res.json()
+  );
 }
 
 function removeItemFromBackend(item) {
-  fetch(`http://127.0.0.1:8888/todo/${item}`, {
+  fetch(`https://to-do-nodejs-jih7.onrender.com/todo/${item}`, {
     method: "DELETE",
   });
 }
 
 function patchItemToBackend(update) {
-  fetch(`http://127.0.0.1:8888/todo/${update.id}`, {
+  fetch(`https://to-do-nodejs-jih7.onrender.com/todo/${update.id}`, {
     method: "PATCH",
     body: JSON.stringify(update),
     headers: {
