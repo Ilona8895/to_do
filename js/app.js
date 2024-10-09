@@ -1,3 +1,5 @@
+import { TimerMinutes } from "../timerJS/Timer/Timer.js";
+
 let numOfTasks;
 
 const btn = document.querySelector(".btn");
@@ -17,16 +19,26 @@ function addListItem(e) {
     }
 
     if (task.value !== "") {
+      const timer = new TimerMinutes();
+      const timerDiv = document.createElement("div");
+      timerDiv.classList.add("timer");
       const addedTask = document.createElement("div");
       addedTask.classList.add("element");
       addedTask.dataset.id = numOfTasks + 1;
       addedTask.innerHTML = `<p class="element-title">${task.value}</p>
-              <button class="delete">Delete</button>
-              <button class="done">Done</button>`;
+                            <div class="done"><i class="fa-regular fa-square-check"></i></div>
+                            <div class="delete"><i class="fa-regular fa-trash-can"></i></div>`;
+
+      addedTask.append(timerDiv);
+      timer.addTimer(timerDiv);
 
       list.appendChild(addedTask);
 
-      const obTask = { id: addedTask.dataset.id, value: task.value };
+      const obTask = {
+        id: addedTask.dataset.id,
+        value: task.value,
+        timer: "---",
+      };
       sendItemToBackend(obTask);
     }
 
@@ -36,17 +48,28 @@ function addListItem(e) {
 
 window.addEventListener("load", (e) => {
   getItemsFromBackend().then(({ todoList }) => {
-    // console.log(todoList);
-
     todoList.forEach((el) => {
+      const timer = new TimerMinutes(el.timer);
+      const timerDiv = document.createElement("div");
+      timerDiv.classList.add("timer");
       const addedTask = document.createElement("div");
       addedTask.classList.add("element");
-      if (el.completed) addedTask.classList.add("checked");
+
       addedTask.dataset.id = el.id;
       addedTask.innerHTML = `<p class="element-title">${el.value}</p>
-		<button class="delete">Delete</button>
-    <button class="done">Done</button>`;
+                            <div class="done"><i class="fa-regular fa-square-check"></i></div>
+                            <div class="delete"><i class="fa-regular fa-trash-can"></i></div>`;
+
+      if (el.completed)
+        addedTask.querySelector(".element-title").classList.add("checked");
+
+      addedTask.append(timerDiv);
+      timer.addTimer(timerDiv);
+
       list.appendChild(addedTask);
+
+      const timerText = addedTask.querySelector(".timerJS-time");
+      timerText.textContent = el.timer;
     });
   });
 });
@@ -63,19 +86,46 @@ list.addEventListener("click", (e) => {
 
   if (e.target.classList.contains("done")) {
     const patchedElement = e.target.closest(".element");
-    if (patchedElement.classList.contains("checked")) {
-      patchedElement.classList.remove("checked");
+    const patchedText = patchedElement.querySelector(".element-title");
+
+    if (patchedText.classList.contains("checked")) {
+      patchedText.classList.remove("checked");
       patchItemToBackend({
         id: patchedElement.dataset.id,
         completed: false,
       });
     } else {
-      patchedElement.classList.add("checked");
+      patchedText.classList.add("checked");
       patchItemToBackend({
         id: patchedElement.dataset.id,
         completed: true,
       });
     }
+  }
+
+  if (e.target.classList.contains("timerJS-start")) {
+    const patchedElement = e.target.closest(".element");
+    // document.querySelector(".active").classList.remove("active");
+
+    if (
+      patchedElement.querySelector(".timerJS-start").textContent === "Start"
+    ) {
+      const timerText = patchedElement.querySelector(".timerJS-time");
+      patchItemToBackend({
+        id: patchedElement.dataset.id,
+        timer: timerText.textContent,
+      });
+    }
+  }
+
+  if (e.target.classList.contains("timerJS-reset")) {
+    const patchedElement = e.target.closest(".element");
+
+    const timerText = patchedElement.querySelector(".timerJS-time");
+    patchItemToBackend({
+      id: patchedElement.dataset.id,
+      timer: timerText.textContent,
+    });
   }
 });
 
