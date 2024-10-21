@@ -2,48 +2,54 @@ import { TimerMinutes } from "../timerJS/Timer/Timer.js";
 
 let numOfTasks;
 
-const btn = document.querySelector(".btn");
 const list = document.querySelector(".list");
+const form = document.querySelector(".addTask");
+const footer = document.querySelector(".summary");
 
 function addListItem(e) {
-  if (
-    e.key === "Enter" ||
-    e.pointerType === "mouse" ||
-    e.pointerType === "touch"
-  ) {
-    const task = document.querySelector(".task");
+  e.preventDefault();
+  const task = document.querySelector(".task");
 
-    if (list.childNodes.length === 0) numOfTasks = 0;
-    else {
-      numOfTasks = Number(list.lastChild.dataset.id);
-    }
+  if (list.childNodes.length === 0) numOfTasks = 0;
+  else {
+    numOfTasks = Number(list.lastChild.dataset.id);
+  }
 
-    if (task.value !== "") {
-      const timer = new TimerMinutes();
-      const timerDiv = document.createElement("div");
-      timerDiv.classList.add("timer");
-      const addedTask = document.createElement("div");
-      addedTask.classList.add("element");
-      addedTask.dataset.id = numOfTasks + 1;
-      addedTask.innerHTML = `<p class="element-title">${task.value}</p>
+  if (task.value !== "") {
+    const timer = new TimerMinutes();
+    const timerDiv = document.createElement("div");
+    timerDiv.classList.add("timer");
+    const addedTask = document.createElement("li");
+    addedTask.classList.add("element");
+    addedTask.dataset.id = numOfTasks + 1;
+    addedTask.innerHTML = `<p class="element-title">${task.value}</p>
                             <div class="done"><i class="fa-regular fa-square-check"></i></div>
                             <div class="delete"><i class="fa-regular fa-trash-can"></i></div>`;
 
-      addedTask.append(timerDiv);
-      timer.addTimer(timerDiv);
+    addedTask.append(timerDiv);
+    timer.addTimer(timerDiv);
 
-      list.appendChild(addedTask);
+    list.appendChild(addedTask);
 
-      const obTask = {
-        id: addedTask.dataset.id,
-        value: task.value,
-        timer: "---",
-      };
-      sendItemToBackend(obTask);
-    }
-
-    task.value = "";
+    const obTask = {
+      id: addedTask.dataset.id,
+      value: task.value,
+      timer: "---",
+    };
+    sendItemToBackend(obTask);
   }
+
+  const tasksAmount = list.querySelectorAll(".element").length;
+  const checkedAmount = list.querySelectorAll(".checked").length;
+  const sum = footer.querySelector("p");
+
+  sum.innerText = `You have ${tasksAmount} ${
+    tasksAmount === 1 ? `task` : `tasks`
+  }. ${checkedAmount} of them ${
+    checkedAmount === 1 ? `is` : `are`
+  } already finished`;
+
+  task.value = "";
 }
 
 window.addEventListener("load", (e) => {
@@ -52,7 +58,7 @@ window.addEventListener("load", (e) => {
       const timer = new TimerMinutes(el.timer);
       const timerDiv = document.createElement("div");
       timerDiv.classList.add("timer");
-      const addedTask = document.createElement("div");
+      const addedTask = document.createElement("li");
       addedTask.classList.add("element");
 
       addedTask.dataset.id = el.id;
@@ -71,17 +77,37 @@ window.addEventListener("load", (e) => {
       const timerText = addedTask.querySelector(".timerJS-time");
       timerText.textContent = el.timer;
     });
+
+    const tasksAmount = list.querySelectorAll(".element").length;
+    const checkedAmount = list.querySelectorAll(".checked").length;
+
+    const sum = document.createElement("p");
+    sum.innerText = `You have ${tasksAmount} ${
+      tasksAmount === 1 ? `task` : `tasks`
+    }. ${checkedAmount} of them ${
+      checkedAmount === 1 ? `is` : `are`
+    } already finished`;
+    footer.append(sum);
   });
 });
 
-window.addEventListener("keydown", addListItem);
-btn.addEventListener("click", addListItem);
+form.addEventListener("submit", addListItem);
 
 list.addEventListener("click", (e) => {
   if (e.target.classList.contains("delete")) {
     e.target.closest(".element").remove();
     const removedEl = e.target.closest(".element").dataset.id;
     removeItemFromBackend(removedEl);
+
+    const tasksAmount = list.querySelectorAll(".element").length;
+    const checkedAmount = list.querySelectorAll(".checked").length;
+    const sum = footer.querySelector("p");
+
+    sum.innerText = `You have ${tasksAmount} ${
+      tasksAmount === 1 ? `task` : `tasks`
+    }. ${checkedAmount} of them ${
+      checkedAmount === 1 ? `is` : `are`
+    } already finished`;
   }
 
   if (e.target.classList.contains("done")) {
@@ -101,11 +127,20 @@ list.addEventListener("click", (e) => {
         completed: true,
       });
     }
+
+    const tasksAmount = list.querySelectorAll(".element").length;
+    const checkedAmount = list.querySelectorAll(".checked").length;
+    const sum = footer.querySelector("p");
+
+    sum.innerText = `You have ${tasksAmount} ${
+      tasksAmount === 1 ? `task` : `tasks`
+    }. ${checkedAmount} of them ${
+      checkedAmount === 1 ? `is` : `are`
+    } already finished`;
   }
 
   if (e.target.classList.contains("timerJS-start")) {
     const patchedElement = e.target.closest(".element");
-    // document.querySelector(".active").classList.remove("active");
 
     if (
       patchedElement.querySelector(".timerJS-start").textContent === "Start"
