@@ -1,4 +1,4 @@
-import { TimerMinutes } from "../timerJS/Timer/Timer.js";
+import { Timer } from "../timerJS/Timer/Timer.js";
 
 let numOfTasks;
 
@@ -16,7 +16,7 @@ function addListItem(e) {
   }
 
   if (task.value !== "") {
-    const timer = new TimerMinutes();
+    const timer = new Timer();
     const timerDiv = document.createElement("div");
     timerDiv.classList.add("timer");
     const addedTask = document.createElement("li");
@@ -55,7 +55,7 @@ function addListItem(e) {
 window.addEventListener("load", (e) => {
   getItemsFromBackend().then(({ todoList }) => {
     todoList.forEach((el) => {
-      const timer = new TimerMinutes(el.timer);
+      const timer = new Timer(el.timer);
       const timerDiv = document.createElement("div");
       timerDiv.classList.add("timer");
       const addedTask = document.createElement("li");
